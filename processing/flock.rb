@@ -6,15 +6,13 @@ class Flock < Processing::App
 
   def setup
     smooth
+    frameRate 30
     @bird = loadShape("bird.svg")
     @cloud = loadShape("cloud.svg")
     @logo = loadShape("logo.svg")
     @font = createFont("MyriadPro", 32)
     textFont(@font)
     @simulator = FlockSimulator.new
-
-
-
   end
 
   def draw
@@ -26,13 +24,11 @@ class Flock < Processing::App
     draw_title
     draw_authors
 
-    draw_boids = Proc.new do |boids|
+    @simulator.move_to_new_position do |boids|
       boids.each do |boid|
         draw_boid boid
       end
     end
-
-    @simulator.move_to_new_position(draw_boids)
   end
 
   def draw_title
@@ -54,7 +50,7 @@ class Flock < Processing::App
   end
 
   def draw_boid(boid)
-    shape(@bird, boid.position.x, boid.position.y) 
+    shape(@bird, boid.position.x, boid.position.y, @bird.width / 2, @bird.height / 2) 
   end
 
   def draw_logo
