@@ -82,7 +82,7 @@ class Boid
 	attr_accessor :position, :velocity
 
 	def initialize
-		@position = Vector[Random.rand(MAX_X), Random.rand(MAX_Y)]
+		@position = Vector[rand(MAX_X), rand(MAX_Y)]
 		@velocity = Vector[0,0]
 	end
 
