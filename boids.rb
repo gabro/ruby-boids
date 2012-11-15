@@ -49,8 +49,8 @@ class FlockSimulator
 		Array.new(n) { Boid.new }
 	end
 
-	def simulate(renderer, n)
-		n.times do
+	def simulate(renderer, iterations)
+		iterations.times do
 			renderer.call @boids
 			move_to_new_position
 		end
@@ -118,4 +118,4 @@ renderer = Proc.new do |boids|
 	puts
 end
 
-simulator.simulate(renderer, 10)
+simulator.simulate(renderer, iterations=10)
