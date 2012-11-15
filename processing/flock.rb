@@ -1,16 +1,22 @@
 # My Sketch
 
+require "../boids"
+
 class Flock < Processing::App
 
   def setup
-      smooth
-      @bird = loadShape("bird.svg")
-      @cloud = loadShape("cloud.svg")
-      @logo = loadShape("logo.svg")
-      @font = createFont("MyriadPro", 32)
-      textFont(@font)
+    smooth
+    @bird = loadShape("bird.svg")
+    @cloud = loadShape("cloud.svg")
+    @logo = loadShape("logo.svg")
+    @font = createFont("MyriadPro", 32)
+    textFont(@font)
+    @simulator = FlockSimulator.new
+
+
+
   end
-  
+
   def draw
     background(42, 82, 190)
 
@@ -19,7 +25,14 @@ class Flock < Processing::App
     stroke(255, 255, 255)
     draw_title
     draw_authors
-    draw_boid(40, 40)
+
+    draw_boids = Proc.new do |boids|
+      boids.each do |boid|
+        draw_boid boid
+      end
+    end
+
+    @simulator.move_to_new_position(draw_boids)
   end
 
   def draw_title
@@ -41,7 +54,7 @@ class Flock < Processing::App
   end
 
   def draw_boid(boid)
-    shape(@bird, boid.position.x, boid.position.y)
+    shape(@bird, boid.position.x, boid.position.y) 
   end
 
   def draw_logo
